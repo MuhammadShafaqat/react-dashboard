@@ -95,7 +95,7 @@ function SearchItem1() {
           <div className={styles.relativeContainer}>
             <textarea
               id={`myInput-${index}`}
-              placeholder="Type something..."
+              placeholder="Search Trends..."
               value={inputValue}
               onChange={handleInputChange(index)}
               onFocus={() => setShowCrosses((prevShowCrosses) => [...prevShowCrosses.slice(0, index), true, ...prevShowCrosses.slice(index + 1)])}
@@ -126,7 +126,18 @@ function SearchItem1() {
           </ul>
         </div>
       ))}
-      <button onClick={addTextarea}>Add Textarea</button>
+      <div className={styles.searchWrapper}>
+        <div className={styles.relativeContainer}>
+          <textarea
+            placeholder="Search Trends..."
+            className={styles.textArea}
+            style={{ height: "50px" }} // Set a fixed height for the textarea
+          ></textarea>
+          <div className={styles.dotWrapper} onClick={addTextarea}>
+            <span className={styles.plusIcon}>+</span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

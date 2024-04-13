@@ -9,7 +9,7 @@ const App = () => {
   return (
     <div>  
       <SearchItem1 />
-      {/* <Home /> */}
+      <Home />
     </div>
   );
 };
