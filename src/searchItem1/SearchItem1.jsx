@@ -1,3 +1,4 @@
+// SearchItem1.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './styles.module.scss';
 
@@ -81,6 +82,19 @@ function SearchItem1() {
     // Add your modal logic here
   };
 
+  const handleResultClick = (index, result) => {
+    setInputValues((prevValues) => {
+      const newValues = [...prevValues];
+      newValues[index] = result; // Set the input value to the clicked result
+      return newValues;
+    });
+    setSearchResults((prevResults) => {
+      const newResults = [...prevResults];
+      newResults[index] = []; // Clear the search results
+      return newResults;
+    });
+  };
+
   const addTextarea = () => {
     setInputValues((prevValues) => [...prevValues, '']);
     setShowCrosses((prevShowCrosses) => [...prevShowCrosses, false]);
@@ -118,12 +132,12 @@ function SearchItem1() {
                 <span className={styles.dotItems} id={`dot3-${index}`}></span>
               </div>
             )}
+            <ul id={`searchResults-${index}`} className={styles.searchResults}>
+              {searchResults[index].map((result, resultIndex) => (
+                <li key={resultIndex} onClick={() => handleResultClick(index, result)}>{result}</li>
+              ))}
+            </ul>
           </div>
-          <ul id={`searchResults-${index}`} className={styles.searchResults}>
-            {searchResults[index].map((result, resultIndex) => (
-              <h3 key={resultIndex}>{result}</h3>
-            ))}
-          </ul>
         </div>
       ))}
       <div className={styles.searchWrapper}>
