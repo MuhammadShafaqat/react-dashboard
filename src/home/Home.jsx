@@ -1,67 +1,82 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
-
-// Function to generate x-axis categories based on the number of years
-const generateCategories = (years) => {
-  const currentYear = new Date().getFullYear();
-  const categories = [];
-  for (let i = 2000; i <= currentYear; i++) {
-    categories.push(i);
-  }
-  return categories;
-};
-
-// Function to generate random data for the given length
-const generateRandomData = (length) => {
-  return Array.from({ length }, () => Math.floor(Math.random() * 100));
-};
+import jsonData from "../data.json";
 
 function Home() {
   const [state, setState] = useState({
-    options: {
-      colors: ["#E91E63", "#FF9800"],
+    lineChartOptions: {
+      colors: [], // Empty array for dynamic colors
       chart: {
-        id: "basic-bar",
+        id: "line-chart",
       },
       xaxis: {
-        categories: generateCategories(20), // Initial range of 20 years
-        tickPlacement: "on", // Keep the ticks (labels) fixed
+        categories: [],
+        tickPlacement: "on",
       },
     },
-    series: [
-      {
-        name: "People Born",
-        data: generateRandomData(20),
+    barChartOptions: {
+      colors: [], // Empty array for dynamic colors
+      chart: {
+        id: "bar-chart",
       },
-      {
-        name: "People Died",
-        data: generateRandomData(20),
+      xaxis: {
+        categories: [],
+        tickPlacement: "on",
       },
-    ],
+    },
+    series: [],
   });
-  
 
-  // Function to handle range change
+  useEffect(() => {
+    // Generate a color palette
+    const palette = ['#E91E63', '#FF9800', '#2196F3'];
+
+    // Update lineChartOptions and barChartOptions with the generated palette
+    setState((prevState) => ({
+      ...prevState,
+      lineChartOptions: {
+        ...prevState.lineChartOptions,
+        colors: palette,
+        xaxis: {
+          categories: jsonData.years,
+        },
+      },
+      barChartOptions: {
+        ...prevState.barChartOptions,
+        colors: palette,
+        xaxis: {
+          categories: jsonData.years,
+        },
+      },
+      series: jsonData.countries.map((country, index) => ({
+        name: country.name,
+        data: country.values,
+        color: palette[index % palette.length], // Assign colors from the palette, looping if necessary
+      })),
+    }));
+  }, []);
+
   const handleRangeChange = (event) => {
     const range = parseInt(event.target.value);
     setState((prevState) => ({
       ...prevState,
-      options: {
-        ...prevState.options,
+      lineChartOptions: {
+        ...prevState.lineChartOptions,
         xaxis: {
-          categories: generateCategories(range),
+          categories: jsonData.years.slice(0, range),
         },
       },
-      series: [
-        {
-          ...prevState.series[0],
-          data: generateRandomData(range),
+      barChartOptions: {
+        ...prevState.barChartOptions,
+        xaxis: {
+          categories: jsonData.years.slice(0, range),
         },
-        {
-          ...prevState.series[1],
-          data: generateRandomData(range),
-        },
-      ],
+      },
+      series: jsonData.countries.map((country, index) => ({
+        name: country.name,
+        data: country.values.slice(0, range),
+        color: state.lineChartOptions.colors[index % state.lineChartOptions.colors.length], // Use the same color for consistency
+      })),
     }));
   };
 
@@ -71,18 +86,18 @@ function Home() {
         Charts <i className="fas fa-user"></i>{" "}
       </h1>
       <div className="row" style={{ display: "flex" }}>
-        <div className="col-4">
+        <div className="col-4" style={{ marginRight: "7rem" }}>
           <label htmlFor="timeRange">Time Range:</label>
           <input
             type="range"
             id="timeRange"
             min="1"
-            max="50"
-            defaultValue="20"
+            max="25" // Max years range from 2000 to 2024
+            defaultValue="25"
             onChange={handleRangeChange}
           />
           <Chart
-            options={state.options}
+            options={state.barChartOptions}
             series={state.series}
             type="bar"
             width="550"
@@ -90,7 +105,7 @@ function Home() {
         </div>
         <div className="col-4">
           <Chart
-            options={state.options}
+            options={state.lineChartOptions}
             series={state.series}
             type="line"
             width="550"
@@ -102,4 +117,3 @@ function Home() {
 }
 
 export default Home;
-
