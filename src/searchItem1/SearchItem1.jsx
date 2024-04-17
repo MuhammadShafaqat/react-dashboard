@@ -120,7 +120,7 @@ function SearchItem1({ handleDataSelection }) {
               )}
               {!showCrosses[index] && (
                 <div className={styles.dotWrapper} onClick={addTextarea}>
-                  <span className={styles.dotItems}>...</span>
+                  <span className={styles.dotItems}>➕</span>
                 </div>
               )}
               <ul id={`searchResults-${index}`} className={styles.searchResults}>
