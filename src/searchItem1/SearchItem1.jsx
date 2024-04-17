@@ -1,8 +1,8 @@
-// SearchItem1.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './styles.module.scss';
+import jsonData from '../data.json';
 
-function SearchItem1() {
+function SearchItem1({ handleDataSelection }) {
   const [inputValues, setInputValues] = useState(['']);
   const [showCrosses, setShowCrosses] = useState([false]);
   const [searchResults, setSearchResults] = useState([[]]);
@@ -39,10 +39,10 @@ function SearchItem1() {
       newValues[index] = event.target.value;
       return newValues;
     });
-    const filteredFruits = fruits.filter((fruit) => fruit.toLowerCase().includes(searchTerm));
+    const filteredResults = ['adult', 'young', 'senior'].filter(option => option.toLowerCase().includes(searchTerm));
     setSearchResults((prevResults) => {
       const newResults = [...prevResults];
-      newResults[index] = filteredFruits;
+      newResults[index] = filteredResults;
       return newResults;
     });
     setShowCrosses((prevShowCrosses) => {
@@ -65,21 +65,11 @@ function SearchItem1() {
       newValues[index] = '';
       return newValues;
     });
-    setSearchResults((prevResults) => {
-      const newResults = [...prevResults];
-      newResults[index] = [];
-      return newResults;
-    });
     setShowCrosses((prevShowCrosses) => {
       const newShowCrosses = [...prevShowCrosses];
       newShowCrosses[index] = false;
       return newShowCrosses;
     });
-    alert('ok!');
-  };
-
-  const openModal = () => {
-    // Add your modal logic here
   };
 
   const handleResultClick = (index, result) => {
@@ -93,6 +83,7 @@ function SearchItem1() {
       newResults[index] = []; // Clear the search results
       return newResults;
     });
+    handleDataSelection(result);
   };
 
   const addTextarea = () => {
@@ -117,19 +108,16 @@ function SearchItem1() {
               className={styles.textArea}
               wrap="off"
               ref={(el) => (textareaRefs.current[index] = el)}
-            >
-              &#10006;
-            </textarea>
+              list={`datalist-${index}`}
+            />
             {showCrosses[index] && (
               <div className={styles.crossWrapper} onClick={clearInput(index)}>
                 <span id={`crossIcon-${index}`}>&#10006;</span>
               </div>
             )}
             {!showCrosses[index] && (
-              <div className={styles.dotWrapper} onClick={openModal}>
-                <span className={styles.dotItems} id={`dot1-${index}`}></span>
-                <span className={styles.dotItems} id={`dot2-${index}`}></span>
-                <span className={styles.dotItems} id={`dot3-${index}`}></span>
+              <div className={styles.dotWrapper} onClick={addTextarea}>
+                <span className={styles.dotItems}>...</span>
               </div>
             )}
             <ul id={`searchResults-${index}`} className={styles.searchResults}>
@@ -137,6 +125,11 @@ function SearchItem1() {
                 <li key={resultIndex} onClick={() => handleResultClick(index, result)}>{result}</li>
               ))}
             </ul>
+            <datalist id={`datalist-${index}`}>
+              <option value="adult" />
+              <option value="young" />
+              <option value="senior" />
+            </datalist>
           </div>
         </div>
       ))}
@@ -146,7 +139,7 @@ function SearchItem1() {
             placeholder="Search Trends..."
             className={styles.textArea}
             style={{ height: "50px" }} // Set a fixed height for the textarea
-          ></textarea>
+          />
           <div className={styles.dotWrapper} onClick={addTextarea}>
             <span className={styles.plusIcon}>+</span>
           </div>
