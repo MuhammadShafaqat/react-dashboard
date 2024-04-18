@@ -7,9 +7,16 @@ import Home from "./home/Home";
 const App = () => {
   const [selectedDataTypes, setSelectedDataTypes] = useState(["adult"]);
 
+  // Function to remove the graph line associated with the given index
+  const removeGraphLine = (index) => {
+    setSelectedDataTypes((prevSelectedDataTypes) => {
+      return prevSelectedDataTypes.filter((_, i) => i !== index);
+    });
+  };
+
   return (
     <div>  
-      <SearchItem1 handleDataSelection={setSelectedDataTypes} />
+      <SearchItem1 handleDataSelection={setSelectedDataTypes} removeGraphLine={removeGraphLine} />
       <Home selectedDataTypes={selectedDataTypes} />
     </div>
   );

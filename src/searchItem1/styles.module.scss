@@ -13,8 +13,8 @@
   font-size: large;
   font-weight: bold;
   padding: 15px 25px 10px 10px; /* Adjust right padding to accommodate the cross */
-  height: 50px;
-  width: 200px;
+  height: 70px;
+  width: 220px;
   border: none;
   background-color: #fff;
   border-bottom: none;
@@ -24,6 +24,15 @@
   margin-left: 2rem;
 }
 
+// .crossWrapper,
+// .dotWrapper {
+//   position: absolute;
+//   top: 50%;
+//   transform: translateY(-50%);
+//   right: 10px;
+//   cursor: pointer;
+//   z-index: 1; 
+// }
 .crossWrapper,
 .dotWrapper {
   position: absolute;
@@ -31,8 +40,14 @@
   transform: translateY(-50%);
   right: 10px;
   cursor: pointer;
-  z-index: 1; /* Ensure the cross and dots appear above other elements */
+  z-index: 2; /* Increased z-index to ensure it's above other elements */
 }
+
+.crossWrapper span,
+.dotWrapper span {
+  z-index: 3; /* Increased z-index of the cross icon itself */
+}
+
 
 #searchResults {
   position: absolute; /* Change to absolute */
