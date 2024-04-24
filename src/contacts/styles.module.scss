@@ -1,0 +1,31 @@
+.contact_table_container {
+  padding: 20px;
+
+  .contact__table {
+    table {
+      width: 100%;
+      border: 1px solid #ddd; /* Add border to the table */
+      border-collapse: collapse;
+
+      th {
+        background-color: #4CAF50; /* Green background */
+        color: white;
+        font-weight: bold;
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ddd; /* Add border to table head */
+      }
+
+      td {
+        color: black;
+        background-color: #f2f2f2; /* Light grey background */
+        padding: 10px;
+        border: 1px solid #ddd; /* Add border to table data */
+      }
+
+      tr:nth-child(even) {
+        background-color: #f9f9f9; /* Light grey background for even rows */
+      }
+    }
+  }
+}
