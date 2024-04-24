@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import styles from './styles.module.scss';
 import jsonData from '../data.json';
 import Popover from '@mui/material/Popover';
-import Typography from '@mui/material/Typography';
 
 function SearchItem1({ handleDataSelection, removeGraphLine }) {
   const [inputValues, setInputValues] = useState(['']);
@@ -147,9 +145,9 @@ function SearchItem1({ handleDataSelection, removeGraphLine }) {
   return (
     <div>
       {inputValues.map((inputValue, index) => (
-        <div key={index} className={styles.searchWrapper}>
-          <div className={styles.relativeContainer}>
-            <div style={{ position: 'relative' }}>
+        <div key={index} className="searchWrapper">
+          <div className="relativeContainer">
+            <div style={{ position: 'relative', display:'flex' }}>
               <textarea
                 id={`myInput-${index}`}
                 placeholder="Search Trends..."
@@ -157,26 +155,27 @@ function SearchItem1({ handleDataSelection, removeGraphLine }) {
                 onChange={handleInputChange(index)}
                 onFocus={() => setShowCrosses((prevShowCrosses) => [...prevShowCrosses.slice(0, index), true, ...prevShowCrosses.slice(index + 1)])}
                 onBlur={() => setShowCrosses((prevShowCrosses) => [...prevShowCrosses.slice(0, index), false, ...prevShowCrosses.slice(index + 1)])}
-                className={styles.textArea}
+                className="textArea text-white" 
                 wrap="off"
                 ref={(el) => (textareaRefs.current[index] = el)}
                 list={`datalist-${index}`}
               />
-              <div className={styles.dotWrapper} onClick={(event) => handlePopoverClick(event, index)}>
-                <span style={{ cursor: 'pointer', position: 'absolute', right: '8px', bottom: '6px' }}>&#x22EE;</span>
+              <div className="dotWrapper" onClick={(event) => handlePopoverClick(event, index)}>
+                <span style={{ cursor: 'pointer', position: 'absolute', right: '8px', bottom: '6px' }}>
+</span>
               </div>
             </div>
             {index === inputValues.length - 1 && !showCrosses[index] && (
-              <div className={styles.dotWrapper} onClick={addTextarea}>
-                <span className={styles.dotItems}>➕</span>
+              <div className="dotWrapper" onClick={addTextarea}>
+                <span className="dotItems">➕</span>
               </div>
             )}
             {showCrosses[index] && (
-              <div className={styles.crossWrapper}>
+              <div className="crossWrapper">
                 <span onClick={clearInput(index)} id={`crossIcon-${index}`}>&#10006;</span>
               </div>
             )}
-            <ul id={`searchResults-${index}`} className={styles.searchResults}>
+            <ul id={`searchResults-${index}`} className="searchResults text-primary">
               {searchResults[index].map((result, resultIndex) => (
                 <li key={resultIndex} onClick={() => handleResultClick(index, result)}>{result}</li>
               ))}
@@ -205,7 +204,7 @@ function SearchItem1({ handleDataSelection, removeGraphLine }) {
       ))}
       {/* Render graph lines */}
       {graphLines.map((isVisible, index) => (
-        isVisible && <div key={`graph-line-${index}`} className={styles.graphLine}>{/* Render your graph line component here */}</div>
+        isVisible && <div key={`graph-line-${index}`} className="graphLine">{/* Render your graph line component here */}</div>
       ))}
     </div>
   );

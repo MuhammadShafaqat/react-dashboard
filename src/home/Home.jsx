@@ -6,7 +6,30 @@ function Home({ selectedDataType, selectedDataTypes }) {
   const [state, setState] = useState({
     chartOptions: {
       colors: [],
-      xaxis: { categories: jsonData.years },
+      xaxis: {
+        categories: jsonData.years,
+        labels: {
+          style: {
+            colors: '#ffffff' // Set x-axis labels color to white
+          }
+        }
+      },
+      yaxis: {
+        labels: {
+          style: {
+            colors: '#ffffff' // Set y-axis labels color to white
+          }
+        }
+      },
+      legend: {
+        labels: {
+          colors: '#ffffff' // Set legend text color to white
+        },
+        markers: {
+          fillColors: [], // Set marker fill colors to match line and bar colors
+          strokeWidth: 0 // Set marker stroke width to 0 to hide it
+        }
+      }
     },
     series: [],
   });
@@ -21,6 +44,13 @@ function Home({ selectedDataType, selectedDataTypes }) {
         chartOptions: {
           ...prevState.chartOptions,
           colors: palette,
+          legend: {
+            ...prevState.chartOptions.legend,
+            markers: {
+              fillColors: palette, // Set marker fill colors to match line and bar colors
+              strokeWidth: 0 // Set marker stroke width to 0 to hide it
+            }
+          }
         },
         series: data.map((country, index) => ({
           name: country.name,
@@ -54,7 +84,10 @@ function Home({ selectedDataType, selectedDataTypes }) {
       ...prevState,
       chartOptions: {
         ...prevState.chartOptions,
-        xaxis: { categories: jsonData.years.slice(0, range) },
+        xaxis: {
+          ...prevState.chartOptions.xaxis,
+          categories: jsonData.years.slice(0, range),
+        },
       },
       series: prevState.series.map((item) => ({
         ...item,
@@ -65,13 +98,13 @@ function Home({ selectedDataType, selectedDataTypes }) {
 
   return (
     <div className="App">
-      <h1>Charts <i className="fas fa-user"></i></h1>
+      <h1 className="text-primary text-white">Charts <i className="fas fa-user"></i></h1>
       {selectedDataType && (
         <h3>Data Type: {selectedDataType}</h3>
       )}
-      <div className="row" style={{ display: "flex" }}>
-        <div className="col-4" style={{ marginRight: "7rem" }}>
-          <label htmlFor="timeRange">Time Range:</label>
+      <div className="chart-container" style={{ display: 'flex', flexDirection: 'column' }}>
+        <div className="row col-2" style={{ marginLeft: "1rem" }}>
+          <label htmlFor="timeRange" className="text-white">Time Range:</label>
           <input
             type="range"
             id="timeRange"
@@ -80,23 +113,34 @@ function Home({ selectedDataType, selectedDataTypes }) {
             defaultValue="25"
             onChange={handleRangeChange}
           />
-          <Chart
-            options={state.chartOptions}
-            series={state.series}
-            type="bar"
-            width="550"
-          />
         </div>
-        {/* {selectedDataType && ( */}
-          <div className="col-4">
+        <div className="row" style={{ display: 'flex', gap: '20px' }}>
+          <div className="col-5">
             <Chart
               options={state.chartOptions}
               series={state.series}
-              type="line"
-              width="550"
+              type="bar"
+              width="450"
             />
           </div>
-        {/* )} */}
+          <div className="col-5">
+            <Chart
+              options={{
+                ...state.chartOptions,
+                legend: {
+                  ...state.chartOptions.legend,
+                  markers: {
+                    ...state.chartOptions.legend.markers,
+                    strokeWidth: 10 // Increase marker stroke width to make circles visible
+                  }
+                }
+              }}
+              series={state.series}
+              type="line"
+              width="450"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

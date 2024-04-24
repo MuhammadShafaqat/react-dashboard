@@ -33,11 +33,22 @@
 //   cursor: pointer;
 //   z-index: 1; 
 // }
-.crossWrapper,
-.dotWrapper {
+.crossWrapper
+ {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  right: 10px;
+  cursor: pointer;
+  z-index: 2; /* Increased z-index to ensure it's above other elements */
+}
+
+.dotWrapper {
+  position: absolute;
+  color: #000 !important;
+  top: 50%;
+  transform: translateY(-50%);
+  size: 1rem;
   right: 10px;
   cursor: pointer;
   z-index: 2; /* Increased z-index to ensure it's above other elements */

@@ -1,34 +1,25 @@
-import React from 'react';
-import Popover from '@mui/material/Popover';
-// import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+// App.js
+import React, { useState } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import SearchItem1 from "../searchItem1/SearchItem1";
+import Home from "../home/Home";
 
-function CustomPopover({ open, anchorEl, onClose, onDelete, onEdit }) {
-  const id = open ? 'simple-popover' : undefined;
+const CustomPopover = () => {
+  const [selectedDataTypes, setSelectedDataTypes] = useState(["adult"]);
+
+  // Function to remove the graph line associated with the given index
+  const removeGraphLine = (index) => {
+    setSelectedDataTypes((prevSelectedDataTypes) => {
+      return prevSelectedDataTypes.filter((_, i) => i !== index);
+    });
+  };
 
   return (
-    <Popover
-      id={id}
-      open={open}
-      anchorEl={anchorEl}
-      onClose={onClose}
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'left',
-      }}
-    >
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <IconButton onClick={onDelete}>
-          <DeleteIcon />
-        </IconButton>
-        <IconButton onClick={onEdit}>
-          <EditIcon /> 
-        </IconButton>
-      </div>
-    </Popover>
+    <div>  
+      <SearchItem1 handleDataSelection={setSelectedDataTypes} removeGraphLine={removeGraphLine} />
+      <Home selectedDataTypes={selectedDataTypes} />
+    </div>
   );
-}
+};
 
 export default CustomPopover;
