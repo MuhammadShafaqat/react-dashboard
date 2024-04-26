@@ -4,27 +4,41 @@
   .contact__table {
     table {
       width: 100%;
-      border: 1px solid #ddd; /* Add border to the table */
+      border: 1px solid #ddd;
       border-collapse: collapse;
 
       th {
-        background-color: #4CAF50; /* Green background */
-        color: white;
+        background-color: #263043;
+        color: rgb(180, 169, 169);
         font-weight: bold;
         padding: 10px;
         text-align: left;
-        border: 1px solid #ddd; /* Add border to table head */
+        border: 1px solid #777474;
+
+        input {
+          font-size: 14px;
+          width: 100%;
+          padding: 10px;
+          background-color: #263043;
+          color: white;
+          border: 1px solid #494747;
+          box-sizing: border-box; /* Ensure padding doesn't increase input width */
+        }
+        input:focus{
+          outline: none;
+        }
       }
 
       td {
-        color: black;
-        background-color: #f2f2f2; /* Light grey background */
+        color: #ddd;
+        // background-color: #f2f2f2;
+        background-color: #263043;
         padding: 10px;
-        border: 1px solid #ddd; /* Add border to table data */
+        border: 1px solid #5d5a5a;
       }
 
       tr:nth-child(even) {
-        background-color: #f9f9f9; /* Light grey background for even rows */
+        background-color: #f9f9f9;
       }
     }
   }
